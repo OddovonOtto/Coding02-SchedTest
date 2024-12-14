@@ -14,4 +14,13 @@ import include.TasksHelper as TH
 
 #The necessary Test for the Liu and Layland Bound
 def test(tasks):
-    return False
+    n = tasks.shape[0]
+    bound = n * (2**(1/n) - 1)
+
+    total_utilization = 0
+    for i in range(tasks.shape[0]):
+        total_utilization += tasks[i][2]/tasks[i][1]
+
+    total_utilization = round(total_utilization, 2)
+
+    return total_utilization <= bound
