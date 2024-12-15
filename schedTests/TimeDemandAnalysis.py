@@ -13,16 +13,31 @@ import include.TasksHelper as TH
 # C_i is accessed as: tasks[i][2]
 # The number of tasks can be accessed as: tasks.shape[0]
 
-#Workload function for task i in ordered tasks
-#Will return the Workload or -1 of not feasible
-def Workload(tasks, i):
-    return -1
 
 #The Time Demand Analysis Test
 def test(tasks):
-    #Sorting Taskset by Period/Deadline
-    #This makes implementing TDA a lot easier
-    shape = tasks.shape
     sortedtasks = tasks[tasks[:, 0].argsort()]
+    
+    for i in range(sortedtasks.shape[0]):
+        t = 1
+        while t < sortedtasks[i][1]:
+            t_candidate = work(sorted_tasks=sortedtasks, i = i, t = t)
+            
+            if t_candidate == t:
+                break
 
-    return False
+            t = t_candidate
+    
+    if t_candidate > sortedtasks[i][1]:
+        return False
+
+    return True
+
+def work(sorted_tasks, i, t):
+    c_i = sorted_tasks[i][2]
+
+    sum = c_i
+    for j in range(i):
+        sum += math.ceil(t/sorted_tasks[j][0])*sorted_tasks[j][2]
+
+    return sum
